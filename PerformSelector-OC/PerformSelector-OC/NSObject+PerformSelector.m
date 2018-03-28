@@ -10,7 +10,7 @@
 
 @implementation NSObject (PerformSelector)
 
-NSArray * arrayWith(va_list args, id arg) {
+static inline NSArray * arrayWith(va_list args, id arg) {
     NSMutableArray *argsArray = [NSMutableArray arrayWithCapacity:0];
     [argsArray addObject:arg];
     id obj;
