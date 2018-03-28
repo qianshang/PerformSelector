@@ -10,8 +10,8 @@
 
 @interface NSObject (PerformSelector)
 
-- (void)ps_performSelector:(SEL)aSelector onThread:(NSThread *)thr withObjects:(NSArray *)args waitUntilDone:(BOOL)wait;
+- (void)ps_performSelector:(SEL)aSelector onThread:(NSThread *)thr waitUntilDone:(BOOL)wait withObjects:(id)arg, ... NS_REQUIRES_NIL_TERMINATION;
 
-- (id)ps_performSelector:(SEL)aSelector withObjects:(NSArray *)args;
+- (id)ps_performSelector:(SEL)aSelector withObjects:(id)arg, ... NS_REQUIRES_NIL_TERMINATION;
 
 @end

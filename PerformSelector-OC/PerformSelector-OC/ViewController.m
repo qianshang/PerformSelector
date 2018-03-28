@@ -19,16 +19,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self ps_performSelector:@selector(testFirst:second:third:) onThread:[NSThread mainThread] withObjects:@[@"A", @"B", @"C"] waitUntilDone:NO];
+    [self ps_performSelector:@selector(testFirst:second:third:) withObjects:@"AA", @"BB", @"CC", nil];
+    [self ps_performSelector:@selector(testFirst:second:third:) withObjects:@"E", @"F", nil];
     
-    [self ps_performSelector:@selector(testFirst:second:third:) onThread:[NSThread mainThread] withObjects:@[@"A", @"B"] waitUntilDone:NO];
-    
-    [self ps_performSelector:@selector(testFirst:second:third:) withObjects:@[@"F", @"E", @"D"]];
+    [self ps_performSelector:@selector(testFirst:second:third:) onThread:[NSThread mainThread] waitUntilDone:NO withObjects:@"A", @"B", @"C", nil];
     
     
-    SEL sel = @selector(testFirst:second:third:);
-    
-    ((void (*) (id, SEL, NSString *, NSString *, NSString *)) objc_msgSend) (self, sel, @"AA", @"BB", @"CC");
+//    SEL sel = @selector(testFirst:second:third:);
+//
+//    ((void (*) (id, SEL, NSString *, NSString *, NSString *)) objc_msgSend) (self, sel, @"AA", @"BB", @"CC");
 }
 
 - (void)testFirst:(NSString *)argA second:(NSString *)argB third:(NSString *)argC {

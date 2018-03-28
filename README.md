@@ -63,19 +63,29 @@ for (NSInteger i = 0; i < count; i ++) {
 此处，我是创建了一个`NSObject`的`Category`,暴露一下方法给调用者
 
 ```
-- (void)ps_performSelector:(SEL)aSelector onThread:(NSThread *)thr withObjects:(NSArray *)args waitUntilDone:(BOOL)wait;
+- (void)ps_performSelector:(SEL)aSelector onThread:(NSThread *)thr waitUntilDone:(BOOL)wait withObjects:(id)arg, ... NS_REQUIRES_NIL_TERMINATION;
 
-- (id)ps_performSelector:(SEL)aSelector withObjects:(NSArray *)args;
+- (id)ps_performSelector:(SEL)aSelector withObjects:(id)arg, ... NS_REQUIRES_NIL_TERMINATION;
 ```
 
 具体使用如下：
 
 ```
-[self ps_performSelector:@selector(testFirst:second:third:) onThread:[NSThread mainThread] withObjects:@[@"A", @"B", @"C"] waitUntilDone:NO];
+[self ps_performSelector:@selector(testFirst:second:third:) withObjects:@"AA", @"BB", @"CC", nil];
+
+[self ps_performSelector:@selector(testFirst:second:third:) withObjects:@"E", @"F", nil];
     
-[self ps_performSelector:@selector(testFirst:second:third:) onThread:[NSThread mainThread] withObjects:@[@"A", @"B"] waitUntilDone:NO];
-    
-[self ps_performSelector:@selector(testFirst:second:third:) withObjects:@[@"F", @"E", @"D"]];
+[self ps_performSelector:@selector(testFirst:second:third:) onThread:[NSThread mainThread] waitUntilDone:NO withObjects:@"A", @"B", @"C", nil];
+
+// 输出结果如下
+/**
+当前线程:<NSThread: 0x60000007d500>{number = 1, name = main}
+first:AA - second:BB - third:CC
+当前线程:<NSThread: 0x60000007d500>{number = 1, name = main}
+first:E - second:F - third:(null)
+当前线程:<NSThread: 0x60000007d500>{number = 1, name = main}
+first:A - second:B - third:C
+*/
 ```
 
 ---
